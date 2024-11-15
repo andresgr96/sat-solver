@@ -10,7 +10,7 @@ Varisat does not require a header line. If it is missing, it will infer the numb
 
 Following the header line are the clauses of the formula. The clauses are encoded as a sequence of decimal numbers separated by spaces and newlines. For each clause the contained literals are listed followed by a 0. Usually each clause is listed on a separate line, using spaces between each of the literals and the final zero. Sometimes long clauses use multiple lines. Varisat will accept any combination of spaces and newlines as separators, including multiple clauses on the same line.
 
-As an example the formula (x ∨ y ∨ ¬z) ∧ (¬y ∨ z) could be encoded as this:
+As an example the formula (X ∨ Y ∨ ¬Z) ∧ (¬Y ∨ Z) could be encoded as this:
 ```
 p cnf 3 2
 1 2 -3 0
