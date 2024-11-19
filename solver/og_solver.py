@@ -6,15 +6,16 @@ class SatSolver:
     """
     A class for solving SAT problems using DPLL with different heuristics.
     """
+
     def __init__(self, strategy: int) -> None:
         """
         Initialize the SAT solver with the given strategy.
 
         Args:
             strategy (int): The strategy number (1: Basic DPLL, 2: DPLL with Jersolow-Wang,
-                            3: DPLL with Jersolow-Wang 2-sided, 4: MOM's Heuristic, 5: DLIS, 6: BOHM).
+                            3: DPLL with Jersolow-Wang 2-sided, 4: MOM's Heuristic, 5: DLIS).
         """
-        assert strategy in [1, 2, 3, 4, 5, 6], "Invalid strategy. Must be 1, 2, 3, 4, 5, or 6."
+        assert strategy in [1, 2, 3, 4, 5], "Invalid strategy. Must be 1, 2, 3, 4, or 5."
         self.strategy = strategy
         self.metrics = {
             "decisions": 0,
@@ -23,29 +24,6 @@ class SatSolver:
             "propagations": 0,
             "unit_clauses_resolved": 0
         }
-
-    def select_literal(self, cnf: List[List[int]]) -> int:
-        """
-        Select the next literal to assign based on the chosen strategy.
-
-        Args:
-            cnf (List[List[int]]): The CNF formula.
-
-        Returns:
-            int: The literal to assign.
-        """
-        if self.strategy == 1:
-            return cnf[0][0]  # Basic DPLL
-        elif self.strategy == 2:
-            return jersolow(cnf)
-        elif self.strategy == 3:
-            return jersolow_sided(cnf)
-        elif self.strategy == 4:
-            return moms_heuristic(cnf)
-        elif self.strategy == 5:
-            return dlis(cnf)
-        elif self.strategy == 6:
-            return bohm_heuristic(cnf)
 
     @staticmethod
     def propagate_unit(cnf: List[List[int]], unit: int) -> Union[List[List[int]], int]:
@@ -91,7 +69,7 @@ class SatSolver:
             unit = unit_clauses[0][0]
             cnf = self.propagate_unit(cnf, unit)
             self.metrics["unit_clauses_resolved"] += 1
-            self.metrics["propagations"] += 1  
+            self.metrics["propagations"] += 1  # Each propagation is part of resolving a unit clause
             assignments.append(unit)
 
             if cnf == -1:
@@ -102,6 +80,26 @@ class SatSolver:
 
         return cnf, assignments
 
+    def select_literal(self, cnf: List[List[int]]) -> int:
+        """
+        Select the next literal to assign based on the chosen strategy.
+
+        Args:
+            cnf (List[List[int]]): The CNF formula.
+
+        Returns:
+            int: The literal to assign.
+        """
+        if self.strategy == 1:
+            return cnf[0][0]  # Basic DPLL
+        elif self.strategy == 2:
+            return jersolow(cnf)
+        elif self.strategy == 3:
+            return jersolow_sided(cnf)
+        elif self.strategy == 4:
+            return moms_heuristic(cnf)
+        elif self.strategy == 5:
+            return dlis(cnf)
 
     def solve(self, cnf: List[List[int]], assignments: List[int] = []) -> Tuple[List[int], dict]:
         """
@@ -124,12 +122,12 @@ class SatSolver:
         if not cnf:
             return assignments, self.metrics
 
-        self.metrics["decisions"] += 1  
+        self.metrics["decisions"] += 1  # A decision is made when selecting a literal
         selected_literal = self.select_literal(cnf)
 
         result, _ = self.solve(self.propagate_unit(cnf, selected_literal), assignments + [selected_literal])
         if not result:
-            self.metrics["backtracks"] += 1  
+            self.metrics["backtracks"] += 1  # A backtrack occurs when the first branch fails
             result, _ = self.solve(self.propagate_unit(cnf, -selected_literal), assignments + [-selected_literal])
 
         return result, self.metrics

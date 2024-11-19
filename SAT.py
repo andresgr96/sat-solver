@@ -18,7 +18,7 @@ if __name__ == '__main__':
 
     clauses = parse_dimacs(input_file)
     solver = SatSolver(strategy=args.s)
-    assignment = solver.solve(clauses)
+    assignment, metrics = solver.solve(clauses)
 
     input_file_name = os.path.basename(input_file)  
     results_dir = os.path.join(os.path.dirname(__file__), "results")  
@@ -33,5 +33,6 @@ if __name__ == '__main__':
 
     if assignment:
         print(f"SAT. Solution written to {output_file}.")
+        print(metrics)
     else:
         print(f"UNSAT. {output_file} is empty.")
