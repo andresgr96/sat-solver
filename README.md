@@ -22,5 +22,5 @@ You can run the solver using the main file, specifying the two arguments  "--inp
 Example command:
 
 ```
-python3 main.py --input_file "data/examples/sudoku1.cnf" --s 3
+python3 SAT.py --input_file "data/examples/sudoku1.cnf" --s 3
 ```
