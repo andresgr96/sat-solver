@@ -1,0 +1,57 @@
+[
+    {
+        "puzzle": "sudoku3.cnf",
+        "metrics": {
+            "decisions": 17,
+            "backtracks": 13,
+            "conflicts": 13,
+            "propagations": 1303,
+            "unit_clauses_resolved": 1303
+        },
+        "satisfiable": true
+    },
+    {
+        "puzzle": "sudoku2.cnf",
+        "metrics": {
+            "decisions": 8,
+            "backtracks": 6,
+            "conflicts": 6,
+            "propagations": 1308,
+            "unit_clauses_resolved": 1308
+        },
+        "satisfiable": true
+    },
+    {
+        "puzzle": "sudoku5.cnf",
+        "metrics": {
+            "decisions": 2377,
+            "backtracks": 2372,
+            "conflicts": 2372,
+            "propagations": 172490,
+            "unit_clauses_resolved": 172490
+        },
+        "satisfiable": true
+    },
+    {
+        "puzzle": "sudoku1.cnf",
+        "metrics": {
+            "decisions": 0,
+            "backtracks": 0,
+            "conflicts": 0,
+            "propagations": 729,
+            "unit_clauses_resolved": 729
+        },
+        "satisfiable": true
+    },
+    {
+        "puzzle": "sudoku4.cnf",
+        "metrics": {
+            "decisions": 23,
+            "backtracks": 16,
+            "conflicts": 16,
+            "propagations": 2004,
+            "unit_clauses_resolved": 2004
+        },
+        "satisfiable": true
+    }
+]
