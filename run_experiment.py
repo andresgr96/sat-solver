@@ -15,13 +15,22 @@ def run_experiment(puzzles_path: str, strategies: dict, results_folder: str) -> 
     """
     os.makedirs(results_folder, exist_ok=True)  # Ensure results folder exists
 
+    # Track file progress for sanity checks
+    all_files = [f for f in os.listdir(puzzles_path) if f.endswith(".cnf")]
+    total_files = len(all_files)
+
     for strategy_name, strategy_number in strategies.items():
         output_file = os.path.join(results_folder, f"{strategy_name}.json")
         results = []
 
         print(f"Running experiments for {strategy_name} heuristic...")
+        files_left = total_files
+        
         for puzzle_file in os.listdir(puzzles_path):
             puzzle_path = os.path.join(puzzles_path, puzzle_file)
+            print(f"Solving {puzzle_file} with {strategy_name} heuristic")
+            print(f"Files left {files_left}")
+            files_left -= 1
 
             if not puzzle_path.endswith(".cnf"):
                 continue  # Skip non-CNF files
