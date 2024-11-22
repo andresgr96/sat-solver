@@ -33,9 +33,7 @@ def aggregate_metrics(results: List[Dict[str, Any]]) -> Dict[str, float]:
     aggregated = {
         "decisions": [],
         "backtracks": [],
-        # "conflicts": [],
-        "propagations": [],
-        # "unit_clauses_resolved": []
+        "propagations": []
     }
 
     for result in results:
@@ -45,6 +43,23 @@ def aggregate_metrics(results: List[Dict[str, Any]]) -> Dict[str, float]:
 
     mean_metrics = {key: np.mean(values) for key, values in aggregated.items()}
     return mean_metrics
+
+
+def merge_aggregated_metrics(metrics1: Dict[str, float], metrics2: Dict[str, float]) -> Dict[str, float]:
+    """
+    Merge and average two aggregated metrics dictionaries.
+
+    Args:
+        metrics1 (Dict[str, float]): First aggregated metrics dictionary.
+        metrics2 (Dict[str, float]): Second aggregated metrics dictionary.
+
+    Returns:
+        Dict[str, float]: Merged metrics containing averaged values.
+    """
+    merged = {}
+    for key in metrics1.keys():
+        merged[key] = (metrics1[key] + metrics2[key]) / 2
+    return merged
 
 
 def plot_metrics(metrics: Dict[str, float], title: str, output_dir: str) -> None:
@@ -94,21 +109,27 @@ def main() -> None:
     results1 = load_results(args.file1)
     metrics1 = aggregate_metrics(results1)
 
-    print(f"Metrics for {os.path.basename(args.file1)}:")
-    for key, value in metrics1.items():
-        print(f"{key}: {value:.2f}")
-
-    plot_metrics(metrics1, f"Metrics for {os.path.basename(args.file1)}", "plots")
-
     if args.file2:
         results2 = load_results(args.file2)
         metrics2 = aggregate_metrics(results2)
 
-        print(f"\nMetrics for {os.path.basename(args.file2)}:")
-        for key, value in metrics2.items():
+        merged_metrics = merge_aggregated_metrics(metrics1, metrics2)
+
+        print(f"Aggregated Metrics for {os.path.basename(args.file1)} and {os.path.basename(args.file2)}:")
+        for key, value in merged_metrics.items():
             print(f"{key}: {value:.2f}")
 
-        plot_metrics(metrics2, f"Metrics for {os.path.basename(args.file2)}", "plots")
+        plot_metrics(
+            merged_metrics,
+            f"Aggregated Metrics for {os.path.basename(args.file1)} and {os.path.basename(args.file2)}",
+            "plots"
+        )
+    else:
+        print(f"Metrics for {os.path.basename(args.file1)}:")
+        for key, value in metrics1.items():
+            print(f"{key}: {value:.2f}")
+
+        plot_metrics(metrics1, f"Metrics for {os.path.basename(args.file1)}", "plots")
 
 
 if __name__ == "__main__":
