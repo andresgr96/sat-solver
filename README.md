@@ -17,7 +17,8 @@ p cnf 3 2
 
 ## Running the Solver
 
-You can run the solver using the main file, specifying the two arguments  "--input_file" is the CNF in DIMACS format you wish to solve, and "--s" os the type of solver, where 1, 2 and 3 correspond to the basic solver with no heuristics, using Jersolow-Wang, and using Jersolow-Wang two sided herustics respectively. The data/examples folder contains 5 sudoku puzzles encoded in DIMACS which you can run for verification.
+You can run the solver using the main file, specifying the two arguments  "--input_file" is the CNF in DIMACS format you wish to solve, and "--s" os the type of solver, where --s is the strategy number (1: Basic DPLL, 2: DPLL with Jersolow-Wang,
+                            3: DPLL with Jersolow-Wang 2-sided, 4: MOM's Heuristic, 5: DLIS, 6: BOHM).. The data/examples folder contains 5 sudoku puzzles encoded in DIMACS which you can run for verification.
 
 Example command:
 
